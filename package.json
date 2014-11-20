@@ -1,8 +1,8 @@
 {
   "name": "superdeis",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "superdeis, like supernova is for nova, but for deis",
-  "main": "src/index.js",
+  "bin": "bin/superdeis.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/imdsm/superdeis.git"
@@ -10,6 +10,8 @@
   "keywords": [
     "deis"
   ],
+  "preferGlobal": true,
+  "bin": "src/index.js",
   "author": "Adam K Dean",
   "license": "Apache",
   "bugs": {
