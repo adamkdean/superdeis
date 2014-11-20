@@ -1,5 +1,4 @@
-var S = require('string'),
-    fs = require('fs'),
+var fs = require('fs'),
     jf = require('jsonfile'),
     ini = require('ini'),
     sys = require('sys'),
