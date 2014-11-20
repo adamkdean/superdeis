@@ -1,6 +1,6 @@
 {
   "name": "superdeis",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "superdeis, like supernova is for nova, but for deis",
   "bin": "bin/superdeis.js",
   "repository": {

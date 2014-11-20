@@ -22,6 +22,7 @@ var superdeis_config,
     argv = process.argv.slice(2);
 
 function superdeis() {
+    /* check if they want the version, if so, let 'em 'ave it */
     if (optimist.version) {
         console.log(pkg.version);
         process.exit(0);
@@ -38,6 +39,19 @@ function superdeis() {
     /* check if the tokens file exists, and create it or read it */
     if (fs.existsSync(SUPERDEIS_TOKENS)) {
         superdeis_tokens = jf.readFileSync(SUPERDEIS_TOKENS, { throws: false }) || {};
+
+        // it is important here to verify that the stored session are still
+        // up to date with the superdeis configuration and if not, purge them
+        for(var token in superdeis_tokens) {
+            if (token in superdeis_config) {
+                var match_controller = superdeis_config[token].controller === superdeis_tokens[token].controller;
+                var match_username = superdeis_config[token].username === superdeis_tokens[token].username;
+                if (!match_controller || !match_username) {
+                    delete superdeis_tokens[token];
+                    saveSuperdeisTokens(superdeis_tokens);
+                }
+            }
+        }
     } else {
         superdeis_tokens = {};
         touch(SUPERDEIS_TOKENS);
@@ -90,9 +104,9 @@ function superdeis() {
     } else if (environment in superdeis_tokens) {
         var deis_session = loadDeisSession(),
             stored_session = superdeis_tokens[environment],
-            match_controller = stored_session.controller == deis_session.controller,
-            match_username = stored_session.username == deis_session.username,
-            match_token = stored_session.token == deis_session.token;
+            match_controller = stored_session.controller === deis_session.controller,
+            match_username = stored_session.username === deis_session.username,
+            match_token = stored_session.token === deis_session.token;
 
         /* we need to write our stored session to the deis session file */
         if (!match_controller || !match_username || !match_token) {
