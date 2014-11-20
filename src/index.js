@@ -2,10 +2,12 @@ var fs = require('fs'),
     jf = require('jsonfile'),
     ini = require('ini'),
     sys = require('sys'),
+    util = require('util'),
+    touch = require('touch'),
+    optimist = require('optimist').argv,
     exec = require('child_process').exec,
     spawn = require('child_process').spawn,
-    touch = require('touch'),
-    util = require('util');
+    pkg = require('../package.json');
 
 /* paths/constants */
 var HOME_DIR = process.env.HOME,
@@ -20,6 +22,11 @@ var superdeis_config,
     argv = process.argv.slice(2);
 
 function superdeis() {
+    if (optimist.version) {
+        console.log(pkg.version);
+        process.exit(0);
+    }
+
     /* check whether the superdeis config exists, load it if so */
     if (fs.existsSync(SUPERDEIS_CONFIG)) {
         superdeis_config = ini.parse(fs.readFileSync(SUPERDEIS_CONFIG, 'utf8'));
