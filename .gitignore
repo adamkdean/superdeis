@@ -1,6 +1,6 @@
-# Logs
-logs
-*.log
+# console.logs
+console.logs
+*.console.log
 
 # Runtime data
 pids
